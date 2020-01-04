@@ -11,12 +11,14 @@ const Boom = require('@hapi/boom')
 const cors = require('cors')
 const routes = require('./routes')
 const helmet = require('helmet')
+const fileUpload = require('express-fileupload');
 
 require('dotenv').config()
 
 const app = express()
 
 app.use(helmet())
+app.use(fileUpload())
 
 app.use(cors({
   origin: '*',
