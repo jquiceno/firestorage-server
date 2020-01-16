@@ -3,6 +3,7 @@
 const { Router } = require('express')
 const router = Router()
 const { File } = require('../../../lib')
+const Boom = require('@hapi/boom')
 
 router.route('/')
   .get(async (req, res, next) => {
@@ -23,6 +24,10 @@ router.route('/')
     try {
       let filesArray = []
       const { files } = req
+
+      if (!files) {
+        throw Boom.badRequest('File not found or ivalid')
+      }
 
       const keyFiles = Object.keys(files)
 
