@@ -11,9 +11,7 @@ const Boom = require('@hapi/boom')
 const cors = require('cors')
 const routes = require('./routes')
 const helmet = require('helmet')
-const fileUpload = require('express-fileupload');
-
-require('dotenv').config()
+const fileUpload = require('express-fileupload')
 
 const app = express()
 

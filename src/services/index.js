@@ -1,5 +1,6 @@
 'use strict'
 
 module.exports = {
-  Server: require('./server')
+  Server: require('./server'),
+  Routes: require('./routes')
 }

@@ -6,8 +6,14 @@ const { PassThrough } = require('stream')
 const Moment = require('moment')
 const FileType = require('file-type')
 const defaults = require('defaults')
+const Config = require('getfig')
 
-const storage = Db.init(require('../../../db-key.json'))
+const config = Config.get()
+
+const { serviceAcount, env } = config
+
+const storage = Db.init(serviceAcount)
+const uploadDir = env.UPLOAD_DIR || config.uploadDir || ''
 
 class File {
   static async getAll () {
@@ -36,7 +42,7 @@ class File {
 
       const { name, type } = opts
 
-      const remoteFile = storage.file(`${name}`)
+      const remoteFile = storage.file(`${uploadDir}/${name}`)
 
       const bufferStream = new PassThrough()
       bufferStream.end(buffer)
@@ -44,6 +50,7 @@ class File {
       const fileRemoteData = await new Promise((resolve, reject) => {
         bufferStream
           .pipe(remoteFile.createWriteStream({
+            public: true,
             gzip: true,
             metadata: {
               contentType: type
